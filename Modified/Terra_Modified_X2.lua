@@ -1,6 +1,6 @@
 ------------------------------------------------------------------------------
 --	FILE:	 Terra.lua
---	AUTHOR:  
+--	AUTHOR:  bene_dictator derived from Firaxis
 --	PURPOSE: Base game script - Produces a near earth map.
 ------------------------------------------------------------------------------
 --	Copyright (c) 2014 Firaxis Games, Inc. All rights reserved.
@@ -14,6 +14,7 @@ include "FeatureGenerator"
 include "TerrainGenerator"
 include "NaturalWonderGenerator"
 include "ResourceGenerator"
+include "CoastalLowlands"
 include "AssignStartingPlots"
 
 local g_iW, g_iH;
@@ -92,6 +93,9 @@ function GenerateMap()
 		numberToPlace = GameInfo.Maps[Map.GetMapSize()].NumNaturalWonders,
 	};
 	local nwGen = NaturalWonderGenerator.Create(args);
+
+	AddFeaturesFromContinents();
+	MarkCoastalLowlands();
 
 	AreaBuilder.Recalculate();
 	TerrainBuilder.AnalyzeChokepoints();
@@ -899,6 +903,12 @@ function AddFeatures()
 	local featuregen = FeatureGenerator.Create(args);
 
 	featuregen:AddFeatures();
+end
+
+function AddFeaturesFromContinents()
+	print("Adding Features from Continents");
+
+	featuregen:AddFeaturesFromContinents();
 end
 
 -------------------------------------------------------------------------------
